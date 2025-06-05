@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uastpm/page/orders.dart';
 import 'package:uastpm/page/profile.dart';
-import 'dashboard.dart';      // Replace with your actual Home page
-import 'maps.dart';    // Replace with your actual Promos page
-import 'payment.dart';  // Replace with your actual Activity page
+import 'dashboard.dart';
 import 'promospage.dart';
 class BtmNavBar extends StatefulWidget {
   const BtmNavBar({Key? key}) : super(key: key);
@@ -42,9 +40,9 @@ class _BtmNavBarState extends State<BtmNavBar> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = [
-      Dashboard(),     // Replace with your actual widget
-      PromosPage(),   // Replace with your actual widget
-      OrdersPage(), // Replace with your actual widget
+      Dashboard(),
+      PromosPage(),
+      OrdersPage(),
       ProfilePage(),
     ];
 
