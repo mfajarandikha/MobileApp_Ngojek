@@ -21,7 +21,7 @@ class _MapPageState extends State<MapPage> {
   Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
 
   final GoogleMapPolyline _googleMapPolyline = GoogleMapPolyline(
-    apiKey: "AIzaSyAaehBbPd0B2Z3pKG6j55ea_qL5Z9d_0pk",
+    apiKey: "*",
   );
 
   // Polyline patterns
