@@ -87,7 +87,13 @@ flutter:
     - assets/images/register.jpg
     - assets/images/Maps.png
     - assets/images/Mapsicle.png
-
+    - assets/images/gojekpromo1.jpg
+    - assets/images/gojekpromo2.jpg
+    - assets/images/gojekpromo3.jpg
+    - assets/images/gojekicon.png
+    - assets/images/splash_screen.png
+    - assets/images/welcome_ngojek.png
+    - assets/images/register_ngojek.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

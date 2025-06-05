@@ -28,10 +28,6 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Orders Detail'),
-        centerTitle: true,
-      ),
       body: FutureBuilder<void>(
         future: _openBox(),
         builder: (context, snapshot) {
@@ -54,16 +50,22 @@ class _OrdersPageState extends State<OrdersPage> {
                   );
                 }
 
-                return ListView.builder(
-                  itemCount: userOrders.length,
-                  itemBuilder: (context, index) {
-                    PayModel order = userOrders[index];
-                    return ListTile(
-                      title: Text('Order Number: ${(index + 1)}'), // Incrementing order ID
-                      subtitle: Text('Time Order: ${order.timeOrder}'),
-                      trailing: Text('Total: ${order.totalOrder}', style: TextStyle(fontSize:16, fontWeight: FontWeight.bold),),
-                    );
-                  },
+                return Container(
+                  color: Colors.red,
+                  child: ListView.builder(
+                    itemCount: userOrders.length,
+
+                    // reverse: true,
+                    itemBuilder: (context, index) {
+                      PayModel order = userOrders[index];
+                      return ListTile(
+                        tileColor: Colors.red,
+                        title: Text('Order Number: ${(index + 1)}'),
+                        subtitle: Text('Time Order: ${order.timeOrder}'),
+                        trailing: Text('Total: ${order.totalOrder}', style: TextStyle(fontSize:16, fontWeight: FontWeight.bold),),
+                      );
+                    },
+                  ),
                 );
               },
             );

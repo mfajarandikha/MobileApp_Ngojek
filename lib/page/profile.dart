@@ -30,23 +30,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('My Profile'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              _myBox.close();
-              _myBoxOrder.close();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => MyApp(isLoggedIn: false)),
-              );
-            },
-          ),
-        ],
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

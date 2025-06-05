@@ -11,12 +11,14 @@ class PaymentPage extends StatefulWidget {
   final double distance;
   final double priceInRupiah;
   final double priceInUSD;
+  final double priceInRinggit;
 
   PaymentPage({
     Key? key,
     required this.distance,
     required this.priceInRupiah,
     required this.priceInUSD,
+    required this.priceInRinggit,
   }) : super(key: key);
 
   @override
@@ -29,6 +31,7 @@ class _PaymentPageState extends State<PaymentPage> {
   late String timeInput;
   String _selectedTimeZone = 'Asia/Jakarta';
   bool _payWithDollar = false;
+  bool _payWithRinggit = false;
 
   @override
   void initState() {
@@ -77,6 +80,8 @@ class _PaymentPageState extends State<PaymentPage> {
             Text(
               _payWithDollar
                   ? 'Price in USD: \$ ${widget.priceInUSD.toStringAsFixed(2)}'
+                  : _payWithRinggit
+                  ? 'Price in Ringgit: RM ${widget.priceInRinggit.toStringAsFixed(2)}'
                   : 'Price in Rupiah: Rp ${widget.priceInRupiah.toStringAsFixed(0)}',
               style: TextStyle(fontSize: 18),
             ),
@@ -110,10 +115,29 @@ class _PaymentPageState extends State<PaymentPage> {
                   onChanged: (value) {
                     setState(() {
                       _payWithDollar = value!;
+                      if (_payWithDollar) {
+                        _payWithRinggit = false;
+                      }
                     });
                   },
                 ),
                 Text('Pay with Dollar'),
+              ],
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: _payWithRinggit,
+                  onChanged: (value) {
+                    setState(() {
+                      _payWithRinggit = value!;
+                      if (_payWithRinggit) {
+                        _payWithDollar = false;
+                      }
+                    });
+                  },
+                ),
+                Text('Pay with Ringgit'),
               ],
             ),
             SizedBox(height: 16),
@@ -138,7 +162,6 @@ class _PaymentPageState extends State<PaymentPage> {
                     _showOrderRecordedDialog();
                   },
                   child: Text('Confirm Payment'),
-
                 ),
               ],
             ),
@@ -152,10 +175,14 @@ class _PaymentPageState extends State<PaymentPage> {
     // Create an instance of the OrderModel and save it to the Hive box
     NumberFormat numberFormatUSD = NumberFormat('#,##0.00');
     NumberFormat numberFormatIDR = NumberFormat('#,###');
+    NumberFormat numberFormatMYR = NumberFormat('#,##0.00');
 
     String fixed = _payWithDollar
         ? '\$ ${numberFormatUSD.format(widget.priceInUSD)}'
+        : _payWithRinggit
+        ? 'RM ${numberFormatMYR.format(widget.priceInRinggit)}'
         : 'Rp. ${numberFormatIDR.format(widget.priceInRupiah)}';
+
     final order = PayModel(
       username: username,
       totalOrder: fixed,

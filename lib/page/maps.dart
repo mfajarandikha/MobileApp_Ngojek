@@ -16,20 +16,21 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   final rupiahFormat = NumberFormat('#,###');
   final usdFormat = NumberFormat('#,##0.00');
+  final ringgitFormat = NumberFormat('#,##0.00');
   int _polylineCount = 1;
   Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
 
   final GoogleMapPolyline _googleMapPolyline = GoogleMapPolyline(
-    apiKey: "AIzaSyAuoP6TiDcR5PALm3f1J2-T9A0l7w93hHQ",
+    apiKey: "AIzaSyAaehBbPd0B2Z3pKG6j55ea_qL5Z9d_0pk",
   );
 
-  //Polyline patterns
+  // Polyline patterns
   List<List<PatternItem>> patterns = <List<PatternItem>>[
-    <PatternItem>[], //line
-    <PatternItem>[PatternItem.dash(30.0), PatternItem.gap(20.0)], //dash
-    <PatternItem>[PatternItem.dot, PatternItem.gap(10.0)], //dot
+    <PatternItem>[], // line
+    <PatternItem>[PatternItem.dash(30.0), PatternItem.gap(20.0)], // dash
+    <PatternItem>[PatternItem.dot, PatternItem.gap(10.0)], // dot
     <PatternItem>[
-      //dash-dot
+      // dash-dot
       PatternItem.dash(30.0),
       PatternItem.gap(20.0),
       PatternItem.dot,
@@ -37,7 +38,7 @@ class _MapPageState extends State<MapPage> {
     ],
   ];
 
-  final LatLng _mapInitLocation = LatLng(latitude, longitude) ;
+  final LatLng _mapInitLocation = LatLng(latitude, longitude);
 
   LatLng? _originLocation;
   LatLng? _destinationLocation;
@@ -57,7 +58,8 @@ class _MapPageState extends State<MapPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Error'),
-            content: Text('Please select both origin and destination locations.'),
+            content:
+            Text('Please select both origin and destination locations.'),
             actions: <Widget>[
               TextButton(
                 child: Text('OK'),
@@ -73,7 +75,8 @@ class _MapPageState extends State<MapPage> {
     }
     _isEstimated = true;
 
-    List<LatLng>? coordinates = await _googleMapPolyline.getCoordinatesWithLocation(
+    List<LatLng>? coordinates =
+    await _googleMapPolyline.getCoordinatesWithLocation(
       origin: _originLocation!,
       destination: _destinationLocation!,
       mode: RouteMode.driving,
@@ -85,13 +88,10 @@ class _MapPageState extends State<MapPage> {
       _polylines.clear();
     });
     _addPolyline(coordinates);
-
-
   }
 
-
   double _distanceBetween(LatLng from, LatLng to) {
-    const int earthRadius = 6371000; // in meters
+    const int earthRadius = 6371000; // radius earth in meters
 
     double lat1 = from.latitude * (pi / 180.0);
     double lon1 = from.longitude * (pi / 180.0);
@@ -143,24 +143,6 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Map'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                _originLocation = null;
-                _destinationLocation = null;
-                _polylines.clear();
-                _distance = 0.0;
-                _isEstimated = false;
-              });
-            },
-            icon: const Icon(Icons.refresh),
-          ),
-        ],
-      ),
       body: ListView(
         physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
@@ -172,7 +154,7 @@ class _MapPageState extends State<MapPage> {
                   onMapCreated: _onMapCreated,
                   polylines: Set<Polyline>.of(_polylines.values),
                   initialCameraPosition: CameraPosition(
-                    target: _mapInitLocation ,
+                    target: _mapInitLocation,
                     zoom: 15,
                   ),
                   onLongPress: (LatLng latLng) {
@@ -205,7 +187,9 @@ class _MapPageState extends State<MapPage> {
                       ),
                   },
                 ),
-                if (_distance > 0.0 && _originLocation != null && _destinationLocation != null)
+                if (_distance > 0.0 &&
+                    _originLocation != null &&
+                    _destinationLocation != null)
                   Positioned(
                     top: 16,
                     left: 16,
@@ -230,11 +214,15 @@ class _MapPageState extends State<MapPage> {
                             style: TextStyle(fontSize: 18, color: Colors.black),
                           ),
                           Text(
-                            'Price in Rupiah: Rp.${rupiahFormat.format(300 * (_distance / 5))}',
+                            'Price in Rupiah: Rp.${rupiahFormat.format(300 * (_distance / 5))}', //300 rupiah / 5 meter
                             style: TextStyle(fontSize: 18, color: Colors.black),
                           ),
                           Text(
                             'Price in USD: \$ ${usdFormat.format(0.002 * (_distance / 5))}',
+                            style: TextStyle(fontSize: 18, color: Colors.black),
+                          ),
+                          Text(
+                            'Price in Ringgit: RM ${ringgitFormat.format(0.003 * (_distance / 5))}',
                             style: TextStyle(fontSize: 18, color: Colors.black),
                           ),
                         ],
@@ -261,6 +249,7 @@ class _MapPageState extends State<MapPage> {
                       distance: _distance,
                       priceInRupiah: 300 * (_distance / 10),
                       priceInUSD: 0.002 * (_distance / 10),
+                      priceInRinggit: 0.003 * (_distance / 10),
                     ),
                   ),
                 );
@@ -277,10 +266,8 @@ class _MapPageState extends State<MapPage> {
             label: Text('Estimate'),
             icon: Icon(Icons.search),
             backgroundColor: Colors.orange,
-
           ),
           SizedBox(height: 16),
-
         ],
       ),
     );

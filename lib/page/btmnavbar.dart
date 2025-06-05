@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:uastpm/page/orders.dart';
 import 'package:uastpm/page/profile.dart';
-import 'dashboard.dart';
-import 'maps.dart';
-import 'orders.dart';
-
+import 'dashboard.dart';      // Replace with your actual Home page
+import 'maps.dart';    // Replace with your actual Promos page
+import 'payment.dart';  // Replace with your actual Activity page
+import 'promospage.dart';
 class BtmNavBar extends StatefulWidget {
   const BtmNavBar({Key? key}) : super(key: key);
 
@@ -15,10 +16,11 @@ class _BtmNavBarState extends State<BtmNavBar> {
   int _selectedIndex = 0;
   late PageController _pageController;
 
+  static const Color customGreen = Color(0xFF01AD01);
+
   @override
   void initState() {
     super.initState();
-    _selectedIndex = 0;
     _pageController = PageController(initialPage: _selectedIndex);
   }
 
@@ -40,10 +42,10 @@ class _BtmNavBarState extends State<BtmNavBar> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = [
-      Dashboard(),
-      MapPage(),
-      OrdersPage(),
-      ProfilePage(), // Added a new page for tracking orders
+      Dashboard(),     // Replace with your actual widget
+      PromosPage(),   // Replace with your actual widget
+      OrdersPage(), // Replace with your actual widget
+      ProfilePage(),
     ];
 
     return WillPopScope(
@@ -62,36 +64,33 @@ class _BtmNavBarState extends State<BtmNavBar> {
               _selectedIndex = index;
             });
           },
-          physics: NeverScrollableScrollPhysics(), // Disable page sliding
+          physics: const NeverScrollableScrollPhysics(),
           children: _widgetOptions,
         ),
-        bottomNavigationBar: PreferredSize(
-          preferredSize: Size.fromHeight(56),
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _selectedIndex,
-            unselectedItemColor: Theme.of(context).textTheme.bodyText2!.color, // Use the unselected text color from the current theme
-            selectedItemColor: Theme.of(context).accentColor, // Use the accent color from the current theme
-            onTap: _onItemTapped,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.dashboard, size: 30),
-                label: 'Dashboard',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.map, size: 30),
-                label: 'Maps',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.assignment, size: 30),
-                label: 'Orders', // Added a new item for tracking orders
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person, size: 30),
-                label: 'Profile',
-              ),
-            ],
-          ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _selectedIndex,
+          selectedItemColor: customGreen,
+          unselectedItemColor: Colors.grey,
+          onTap: _onItemTapped,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home, size: 30),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.local_offer, size: 30),
+              label: 'Promos',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.history, size: 30),
+              label: 'Activity',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person, size: 30),
+              label: 'Profile',
+            ),
+          ],
         ),
       ),
     );
